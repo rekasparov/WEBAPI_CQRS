@@ -1,0 +1,6 @@
+@NSI.WebApi_HostAddress = http://localhost:5251
+
+GET {{NSI.WebApi_HostAddress}}/department/
+Accept: application/json
+
+###

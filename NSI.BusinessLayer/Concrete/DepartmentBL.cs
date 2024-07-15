@@ -17,7 +17,7 @@ namespace NSI.BusinessLayer.Concrete
     {
         private readonly IBaseUnitOfWork unitOfWork = new BaseUnitOfWork();
 
-        public async Task AddAsync(DepartmentDTO dto)
+        public async Task AddAsync(DepartmentDTO dto, CancellationToken cancellationToken)
         {
             if (await unitOfWork.Department.Select().AnyAsync(x => x.Name.Equals(dto.Name)))
                 throw new NotUnique();
@@ -27,7 +27,7 @@ namespace NSI.BusinessLayer.Concrete
                 {
                     Name = dto.Name,
                     IsActive = true,
-                });
+                }, cancellationToken);
         }
 
         public async Task EditAsync(DepartmentDTO dto)

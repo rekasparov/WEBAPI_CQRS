@@ -24,9 +24,9 @@ namespace NSI.Repository.Concrete
             _dbContext.Remove(entity);
         }
 
-        public async Task InsertAsync(T entity)
+        public async Task InsertAsync(T entity, CancellationToken cancellationToken)
         {
-            await _dbContext.AddAsync(entity);
+            await _dbContext.AddAsync(entity, cancellationToken);
         }
 
         public IQueryable<T> Select(Expression<Func<T, bool>>? predicate = null)

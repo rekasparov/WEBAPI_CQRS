@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSI.DataTransferObject;
 using NSI.Shared.ResponseData.Abstract;
 using NSI.Shared.ResponseData.Concrete;
+using NSI.WebApi.Commands.Department.Requests;
 using NSI.WebApi.Queries.Department.Requests;
 
 namespace NSI.WebApi.Controllers
@@ -23,6 +25,24 @@ namespace NSI.WebApi.Controllers
         public async Task<IBaseResponseData> Get(int take, int skip)
         {
             return await _mediator.Send(new GetDepartmentRequest(take, skip));
+        }
+
+        [HttpPost]
+        public async Task<IBaseResponseData> Post(DepartmentDTO model)
+        {
+            return await _mediator.Send(new AddDepartmentRequest(model));
+        }
+
+        [HttpPut]
+        public async Task<IBaseResponseData> Put(DepartmentDTO model)
+        {
+            return await _mediator.Send(new EditDepartmentRequest(model));
+        }
+
+        [HttpDelete]
+        public async Task<IBaseResponseData> Delete(int id)
+        {
+            return await _mediator.Send(new RemoveDepartmentRequest(id));
         }
 
         [HttpGet("Test")]

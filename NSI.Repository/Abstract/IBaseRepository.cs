@@ -11,7 +11,7 @@ namespace NSI.Repository.Abstract
         where T : class, new()
     {
         IQueryable<T> Select(Expression<Func<T, bool>>? predicate = null);
-        Task InsertAsync(T entity);
+        Task InsertAsync(T entity, CancellationToken cancellationToken);
         void Update(T entity);
         void Delete(T entity);
     }

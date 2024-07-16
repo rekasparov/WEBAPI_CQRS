@@ -17,12 +17,12 @@ namespace NSI.BusinessLayer.Concrete
     {
         private readonly IBaseUnitOfWork unitOfWork = new BaseUnitOfWork();
 
-        public async Task AddAsync(DepartmentDTO dto, CancellationToken cancellationToken)
+        public async Task<int> AddAsync(DepartmentDTO dto, CancellationToken cancellationToken)
         {
             if (await unitOfWork.Department.Select().AnyAsync(x => x.Name.Equals(dto.Name)))
                 throw new NotUnique();
 
-            await unitOfWork.Department
+            return await unitOfWork.Department
                 .InsertAsync(new Entity.Department
                 {
                     Name = dto.Name,
@@ -30,7 +30,7 @@ namespace NSI.BusinessLayer.Concrete
                 }, cancellationToken);
         }
 
-        public async Task EditAsync(DepartmentDTO dto)
+        public async Task<int> EditAsync(DepartmentDTO dto, CancellationToken cancellationToken)
         {
             var entity = await unitOfWork.Department
                 .Select(x => x.Id == dto.Id)
@@ -45,7 +45,7 @@ namespace NSI.BusinessLayer.Concrete
             entity.Name = dto.Name;
             entity.IsActive = dto.IsActive;
 
-            unitOfWork.Department.Update(entity);
+            return await unitOfWork.Department.UpdateAsync(entity, cancellationToken);
         }
 
         public async Task<ICollection<DepartmentDTO>> GetAsync(int take, int skip)
@@ -78,7 +78,7 @@ namespace NSI.BusinessLayer.Concrete
                 .FirstOrDefaultAsync())!;
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task<int> RemoveAsync(int id, CancellationToken cancellationToken)
         {
             var entity = await unitOfWork.Department
                 .Select(x => x.Id == id)
@@ -87,12 +87,7 @@ namespace NSI.BusinessLayer.Concrete
             if (entity == null)
                 throw new NullReference();
 
-            unitOfWork.Department.Delete(entity);
-        }
-
-        public Task<int> SaveChangesAsync()
-        {
-            return unitOfWork.SaveChangesAsync();
+            return await unitOfWork.Department.DeleteAsync(entity, cancellationToken);
         }
     }
 }

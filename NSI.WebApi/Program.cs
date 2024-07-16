@@ -1,3 +1,6 @@
+using FluentValidation;
+using NSI.DataTransferObject;
+using NSI.Validation;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -20,6 +23,8 @@ namespace NSI.WebApi
             });
 
             builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+            builder.Services.AddScoped<IValidator<DepartmentDTO>, DepartmentValidator>();
 
             var app = builder.Build();
 

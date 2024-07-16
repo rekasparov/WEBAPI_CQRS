@@ -16,7 +16,7 @@ namespace NSI.WebApi.Commands.Department.Handlers
             using IBaseResponseData responseData = new BaseResponseData();
             try
             {
-                await _departmentBL.AddAsync(request.Department, cancellationToken);
+                responseData.Data = await _departmentBL.AddAsync(request.Department, cancellationToken);
             }
             catch (Exception ex)
             {

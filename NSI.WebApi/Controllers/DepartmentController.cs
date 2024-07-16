@@ -40,6 +40,7 @@ namespace NSI.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Route("{id:int}")]
         public async Task<IBaseResponseData> Delete(int id)
         {
             return await _mediator.Send(new RemoveDepartmentRequest(id));

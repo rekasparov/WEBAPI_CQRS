@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using NSI.Entity;
+using NSI.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NSI.Validation
 {
-    public class DepartmentValidator : AbstractValidator<Department>
+    public class DepartmentValidator : AbstractValidator<DepartmentDTO>
     {
         public DepartmentValidator()
         {

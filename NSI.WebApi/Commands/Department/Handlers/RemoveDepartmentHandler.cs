@@ -16,7 +16,7 @@ namespace NSI.WebApi.Commands.Department.Handlers
             using IBaseResponseData responseData = new BaseResponseData();
             try
             {
-                await _departmentBL.RemoveAsync(request.Id);
+                responseData.Data = await _departmentBL.RemoveAsync(request.Id, cancellationToken);
             }
             catch (Exception ex)
             {

@@ -16,7 +16,7 @@ namespace NSI.WebApi.Commands.Department.Handlers
             using IBaseResponseData responseData = new BaseResponseData();
             try
             {
-                await _departmentBL.EditAsync(request.Department);
+                responseData.Data = await _departmentBL.EditAsync(request.Department, cancellationToken);
             }
             catch (Exception ex)
             {

@@ -19,14 +19,58 @@ namespace NSI.Repository.Concrete
             _dbContext = dbContext;
         }
 
-        public void Delete(T entity)
+        public async Task<int> DeleteAsync(T entity, CancellationToken cancellationToken)
         {
-            _dbContext.Remove(entity);
+            var effectedRowCount = 0;
+            var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                _dbContext.Remove(entity);
+
+                if (transaction != null)
+                    await transaction.CommitAsync(cancellationToken);
+            }
+            catch
+            {
+                if (transaction != null)
+                    await transaction.RollbackAsync(cancellationToken);
+            }
+            finally
+            {
+                if (_dbContext.ChangeTracker.HasChanges())
+                    effectedRowCount = await _dbContext.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                    await transaction.DisposeAsync();
+            }
+            return effectedRowCount;
         }
 
-        public async Task InsertAsync(T entity, CancellationToken cancellationToken)
+        public async Task<int> InsertAsync(T entity, CancellationToken cancellationToken)
         {
-            await _dbContext.AddAsync(entity, cancellationToken);
+            var effectedRowCount = 0;
+            var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                await _dbContext.AddAsync(entity, cancellationToken);
+
+                if (transaction != null)
+                    await transaction.CommitAsync(cancellationToken);
+            }
+            catch
+            {
+                if (transaction != null)
+                    await transaction.RollbackAsync(cancellationToken);
+            }
+            finally
+            {
+                if (_dbContext.ChangeTracker.HasChanges())
+                    effectedRowCount = await _dbContext.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                    await transaction.DisposeAsync();
+            }
+            return effectedRowCount;
         }
 
         public IQueryable<T> Select(Expression<Func<T, bool>>? predicate = null)
@@ -37,9 +81,31 @@ namespace NSI.Repository.Concrete
                 return _dbContext.Set<T>().Where(predicate);
         }
 
-        public void Update(T entity)
+        public async Task<int> UpdateAsync(T entity, CancellationToken cancellationToken)
         {
-            _dbContext.Update(entity);
+            var effectedRowCount = 0;
+            var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+            try
+            {
+                _dbContext.Update(entity);
+
+                if (transaction != null)
+                    await transaction.CommitAsync(cancellationToken);
+            }
+            catch
+            {
+                if (transaction != null)
+                    await transaction.RollbackAsync(cancellationToken);
+            }
+            finally
+            {
+                if (_dbContext.ChangeTracker.HasChanges())
+                    effectedRowCount = await _dbContext.SaveChangesAsync(cancellationToken);
+
+                if (transaction != null)
+                    await transaction.DisposeAsync();
+            }
+            return effectedRowCount;
         }
     }
 }

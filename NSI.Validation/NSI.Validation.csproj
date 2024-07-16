@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSI.Entity\NSI.Entity.csproj" />
+    <ProjectReference Include="..\NSI.DataTransferObject\NSI.DataTransferObject.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,5 @@ namespace NSI.UnitOfWork.Abstract
         public IEmployeeTitleDAL EmployeeTitle { get; }
         public IUserDAL User { get; }
         public IUserRoleDAL UserRole { get; }
-
-        public Task<int> SaveChangesAsync();
     }
 }

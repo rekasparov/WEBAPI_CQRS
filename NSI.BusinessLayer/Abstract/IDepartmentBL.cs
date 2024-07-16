@@ -11,9 +11,8 @@ namespace NSI.BusinessLayer.Abstract
     {
         Task<ICollection<DepartmentDTO>> GetAsync(int take, int skip);
         Task<DepartmentDTO> GetByIdAsync(int id);
-        Task AddAsync(DepartmentDTO dto, CancellationToken cancellationToken);
-        Task EditAsync(DepartmentDTO dto);
-        Task RemoveAsync(int id);
-        Task<int> SaveChangesAsync();
+        Task<int> AddAsync(DepartmentDTO dto, CancellationToken cancellationToken);
+        Task<int> EditAsync(DepartmentDTO dto, CancellationToken cancellationToken);
+        Task<int> RemoveAsync(int id, CancellationToken cancellationToken);
     }
 }

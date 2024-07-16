@@ -29,28 +29,5 @@ namespace NSI.UnitOfWork.Concrete
         {
             GC.SuppressFinalize(this);
         }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            var transaction = await _dbContext.Database.BeginTransactionAsync();
-            var effectedRowCount = 0;
-            try
-            {
-                effectedRowCount = await _dbContext.SaveChangesAsync();
-                if (transaction != null)
-                    await transaction.CommitAsync();
-            }
-            catch
-            {
-                if (transaction != null)
-                    await transaction.RollbackAsync();
-            }
-            finally
-            {
-                if (transaction != null)
-                    await transaction.DisposeAsync();
-            }
-            return effectedRowCount;
-        }
     }
 }

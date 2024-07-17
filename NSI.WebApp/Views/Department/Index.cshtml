@@ -1,0 +1,56 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        <div class="12">
+            <div class="table-responsive" id="department_table_container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="w-10">Sıra No</td>
+                            <td class="w-40">Adı</td>
+                            <td class="w-25">Aktif</td>
+                            <td class="w-25">Detaylar</td>
+                        </tr>
+                    </thead>
+                    <tbody id="department_table_body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        nsiHelper.Ajax("Department", "GET", null, '/100/0',
+            function (x, y, z) {
+                if (x != undefined && (x.IsError != undefined && !x.IsError) && x.Data != undefined) {
+                    var data = x.Data;
+                    var html = '';
+                    for (let index = 0; index < data.length; index++) {
+                        var id = data[index].Id;
+                        var name = data[index].Name;
+                        var isActive = (data[index].IsActive
+                            ? 'Evet'
+                            : 'Hayır');
+
+                        html += '<tr>';
+                        html += '<td>' + id + '</td>';
+                        html += '<td>' + name + '</td>';
+                        html += '<td>' + isActive + '</td>';
+                        html += '<td><a href="@Url.Action("Edit", "Department")/' + id + '">Detaylar<a/></td>';
+                        html += '/<tr>';
+                    }
+                    $('#department_table_body').html(html);
+                }
+            },
+            function (x, y, z) {
+                debugger;
+            },
+            function () {
+                nsiHelper.ShowLoader($('#department_table_container'));
+            },
+            function () {
+                nsiHelper.HideLoader($('#department_table_container'));
+            },
+            "application/json", true);
+    });
+</script>

@@ -1,11 +1,12 @@
 ﻿var nsiHelper = function () {
     const DEFAULT_API_URL = 'https://localhost:7169/api/';
 
-    function ajax(url, method, data, parameters, success, error, beforeSend, complete, contentType, async) {
+    function ajax(url, method, data, headers, parameters, success, error, beforeSend, complete, contentType, async) {
         $.ajax({
             url: (DEFAULT_API_URL + url + parameters),
             method: method,
             data: data,
+            headers: headers,
             success: success,
             error: error,
             beforeSend: beforeSend,

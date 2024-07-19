@@ -12,7 +12,7 @@ namespace NSI.Validation
     {
         public DepartmentValidator()
         {
-            RuleFor(x => x.Name).Length(1, 50);
+            RuleFor(x => x.Name).Length(1, 50).WithMessage(x => $"'Adı' alanı 1 ile 50 karakter uzunluğunda olmalıdır. {x.Name.Length} karakter uzunluğunda giriş yapıldı!");
         }
     }
 }

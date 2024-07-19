@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSI.DataTransferObject;
 using NSI.Shared.ResponseData.Abstract;
 using NSI.Shared.ResponseData.Concrete;
 using NSI.WebApi.Commands.Department.Requests;
+using NSI.WebApi.Filters;
 using NSI.WebApi.Queries.Department.Requests;
 
 namespace NSI.WebApi.Controllers
@@ -22,6 +24,7 @@ namespace NSI.WebApi.Controllers
 
         [HttpGet]
         [Route("{take:int}/{skip:int}")]
+        [UserAuthorize()]
         public async Task<IBaseResponseData> Get(int take, int skip)
         {
             return await _mediator.Send(new GetDepartmentRequest(take, skip));

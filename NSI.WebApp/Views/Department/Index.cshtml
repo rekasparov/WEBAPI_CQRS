@@ -20,7 +20,12 @@
 
 <script>
     $(document).ready(() => {
-        var jwtToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IlRFU1QiLCJuYmYiOjE3MjEzMDA5MTUsImV4cCI6MTcyMTMwNjkxNSwiaXNzIjoiSXNzdWVySW5mb3JtYXRpb24iLCJhdWQiOiJBdWRpZW5jZUluZm9ybWF0aW9uIn0.366AJ8wWb34elcBkNyfOYWdDimkSpVp2ThUqbApHZu0';
+        var jwtToken = nsiHelper.CheckJwtToken();
+        if (jwtToken == null) {
+            window.location.href = '@Url.Action("Index", "Login")';
+            return;
+        }
+        // var jwtToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IlRFU1QiLCJuYmYiOjE3MjEzMDA5MTUsImV4cCI6MTcyMTMwNjkxNSwiaXNzIjoiSXNzdWVySW5mb3JtYXRpb24iLCJhdWQiOiJBdWRpZW5jZUluZm9ybWF0aW9uIn0.366AJ8wWb34elcBkNyfOYWdDimkSpVp2ThUqbApHZu0';
         nsiHelper.Ajax("Department", "GET", null, { 'Authorization': jwtToken }, '/100/0',
             function (x, y, z) {
                 if (x != undefined && (x.IsError != undefined && !x.IsError) && x.Data != undefined) {

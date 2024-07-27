@@ -28,7 +28,7 @@ namespace NSI.WebApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Department}/{action=Index}/{id?}");
+                pattern: "{controller=User}/{action=Index}/{id?}");
 
             app.Run();
         }

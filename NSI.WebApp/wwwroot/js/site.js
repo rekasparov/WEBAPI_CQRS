@@ -26,9 +26,19 @@
             $(container).removeClass('dot-carousel');
     }
 
+    function checkJwtToken() {
+        return localStorage.getItem("jwtToken");
+    }
+
+    function setJwtToken(jwtToken) {
+        localStorage.setItem('jwtToken', jwtToken);
+    }
+
     return {
         Ajax: ajax,
         ShowLoader: showLoader,
-        HideLoader: hideLoader
+        HideLoader: hideLoader,
+        CheckJwtToken: checkJwtToken,
+        SetJwtToken: setJwtToken
     }
 }();

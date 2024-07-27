@@ -21,6 +21,7 @@ namespace NSI.WebApi.Filters
     {
         private readonly IBaseJwtTokenService jwtTokenService = new BaseJwtTokenService();
         private readonly IBaseResponseData responseData = new BaseResponseData();
+        private readonly IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
 
         public async void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -28,7 +29,9 @@ namespace NSI.WebApi.Filters
             {
                 var token = context.HttpContext.Request.Headers["Authorization"].ToString().Substring("Bearer ".Length);
 
-                var tokenIsValid = await jwtTokenService.IsValidAsync("IssuerInformation", "AudienceInformation", "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr", token);
+                var configurationSection = configurationBuilder.AddJsonFile("appsettings.json").Build().GetSection("JwtSettings");
+
+                var tokenIsValid = await jwtTokenService.IsValidAsync(configurationSection["Issuer"]!, configurationSection["Audience"]!, configurationSection["Secret"]!, token);
 
                 if (!tokenIsValid)
                 {
